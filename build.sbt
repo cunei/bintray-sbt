@@ -1,10 +1,17 @@
+lazy val commonSettings: Seq[Setting[_]] = Seq(
+  git.baseVersion in ThisBuild := "0.3.0",
+  organization in ThisBuild := "com.eed3si9n"
+)
+
 lazy val root = (project in file(".")).
+  enablePlugins(GitVersioning).
   settings(
-    organization := "me.lessis",
+    commonSettings,
+    // organization := "me.lessis",
+    // version := "0.3.0-SNAPSHOT",
     name := "bintray-sbt",
-    version := "0.3.0-SNAPSHOT",
     description := "package publisher for bintray.com",
-    homepage := Some(url(s"https://github.com/softprops/${name.value}#readme")),
+    homepage := Some(url(s"https://github.com/eed3si9n/${name.value}#readme")),
     sbtPlugin := true,
     libraryDependencies ++= Seq(
       "me.lessis" %% "bintry" % "0.4.0",
@@ -12,12 +19,12 @@ lazy val root = (project in file(".")).
     scalacOptions ++= Seq(Opts.compile.deprecation, "-feature"),
     resolvers += Resolver.sonatypeRepo("releases"),
     licenses ++= Seq("MIT" -> url(
-      s"https://github.com/softprops/${name.value}/blob/${version.value}/LICENSE")),
+      s"https://github.com/eed3si9n/${name.value}/blob/${version.value}/LICENSE")),
     publishArtifact in Test := false,
     pomExtra := (
       <scm>
-        <url>git@github.com:softprops/{name.value}.git</url>
-        <connection>scm:git:git@github.com:softprops/{name.value}.git</connection>
+        <url>git@github.com:eed3si9n/{name.value}.git</url>
+        <connection>scm:git:git@github.com:eed3si9n/{name.value}.git</connection>
       </scm>
       <developers>
         <developer>
@@ -28,6 +35,5 @@ lazy val root = (project in file(".")).
       </developers>
     ),
     lsSettings,
-    externalResolvers in LsKeys.lsync := (resolvers in bintray.Keys.bintray).value,
-    bintraySettings
+    externalResolvers in LsKeys.lsync := (resolvers in bintray.Keys.bintray).value
   )
